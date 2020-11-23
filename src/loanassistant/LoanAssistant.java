@@ -121,12 +121,14 @@ public class LoanAssistant extends JFrame implements DocumentListener {
         constraints.gridx = 1;
         constraints.gridy = 0;
         constraints.gridheight = 1;
+        txtLoanBal.setFont(font);
         txtLoanBal.setHorizontalAlignment(JFormattedTextField.RIGHT);
         add(txtLoanBal, constraints);
 
         constraints.gridx = 1;
         constraints.gridy = 1;
         constraints.gridheight = 1;
+        txtInterestRate.setFont(font);
         txtInterestRate.setHorizontalAlignment(JFormattedTextField.RIGHT);
         add(txtInterestRate, constraints);
 
@@ -134,6 +136,7 @@ public class LoanAssistant extends JFrame implements DocumentListener {
         constraints.gridy = 2;
         constraints.gridheight = 1;
         constraints.gridwidth = 1;
+        txtNumOfPayments.setFont(font);
         txtNumOfPayments.setHorizontalAlignment(JFormattedTextField.RIGHT);
         add(txtNumOfPayments, constraints);
 
@@ -141,6 +144,7 @@ public class LoanAssistant extends JFrame implements DocumentListener {
         constraints.gridy = 3;
         constraints.gridheight = 1;
         constraints.gridwidth = 1;
+        txtMonthlyPayments.setFont(font);
         txtMonthlyPayments.setHorizontalAlignment(JFormattedTextField.RIGHT);
         add(txtMonthlyPayments, constraints);
 
