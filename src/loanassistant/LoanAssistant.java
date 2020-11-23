@@ -39,7 +39,7 @@ public class LoanAssistant extends JFrame implements DocumentListener {
 
     private ArrayList<JFormattedTextField> fieldList = new ArrayList<>();
 
-    Amortization pmt = new Amortization();
+    TestAmortization pmt = new TestAmortization();
 
     private NumberFormat amountFormat;
 
@@ -201,38 +201,42 @@ public class LoanAssistant extends JFrame implements DocumentListener {
         btnComputeMonthly.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                
                 btnSwitchField.setLocation(btnSwitchField.getX(), (btnSwitchField.getY()));
                 
-                // gets text from fields and stores them in global variables from Amortization class
+                // gets text from fields and stores them in global variables from Amortization2 class
                 pmt.loanAmt = Double.parseDouble(txtLoanBal.getText());
-                pmt.interestRate = Double.parseDouble(txtInterestRate.getText());
-
+                pmt.intRate = Double.parseDouble(txtInterestRate.getText());
+                
                 //gets and sets text based on which field is enabled.
-                if (txtNumOfPayments.isEnabled()) {
-                    pmt.numberOfPayments = Integer.parseInt(txtNumOfPayments.getText());
-                    txtMonthlyPayments.setText(String.valueOf(pmt.calculateMonthlyPayment()));
-                } else if (txtMonthlyPayments.isEnabled()) {
-                    pmt.monthlyPay = Double.parseDouble(txtMonthlyPayments.getText());
-                    txtNumOfPayments.setText(String.valueOf(pmt.numberOfPayments()));
-                }
+//                if (txtNumOfPayments.isEnabled()) {
+//                    pmt.noOfMths = Integer.parseInt(txtNumOfPayments.getText());
+//                    txtMonthlyPayments.setText(String.valueOf(pmt.calculateMonthlyPayment()));
+//                } else if (txtMonthlyPayments.isEnabled()) {
+//                    pmt.userMthlyPay = Double.parseDouble(txtMonthlyPayments.getText());
+//                    txtNumOfPayments.setText(String.valueOf(pmt.calculateNumberOfPayments()));
+//                }
+
+                pmt.amortization(Double.parseDouble(txtLoanBal.getText()), Double.parseDouble(txtInterestRate.getText()));
 
                 // Intialize variables to called methods
-                int numberOfPayments = pmt.numberOfPayments();
-                double calculateMonthlyPayment = pmt.calculateMonthlyPayment();
+                int numberOfPayments = pmt.calculateNumberOfPayments();
+                double monthlyPayment = pmt.calculateMonthlyPayment();
 
                 txaNewLoanAnalysis.setText(
                         "Loan balance: " + pmt.loanAmt
                         +"\n"
-                        + "Interest rate is: " + pmt.interestRate
+                        + "Interest rate is: " + pmt.intRate
                         + "\n\n"
-                        + numberOfPayments + " Payments of " + calculateMonthlyPayment
+                        + numberOfPayments + " Payments of " + monthlyPayment
                         + "\n"
                         + "Total Principal is: " + pmt.calculateTotalPrincipal()
                         + "\n"
                         + "Final Payments: " + pmt.finalPay
                         + "\n"
-                        //                        + "Total Payments: " +Amortization2.totalPay
-                        + "Total Interest: " + pmt.totalInterest
+                        + "Total Payments: " + pmt.calculateTotalInterest()+ pmt.loanAmt
+                        +"\n"
+                        + "Total Interest: " + pmt.calculateTotalInterest()
                 );
             }
         });
@@ -274,9 +278,9 @@ public class LoanAssistant extends JFrame implements DocumentListener {
                 txtMonthlyPayments.setText("");
                 txtNumOfPayments.setText("");
                 pmt.loanAmt = 0;
-                pmt.interestRate = 0;
-                pmt.numberOfPayments = 0;
-                pmt.monthlyPay = 0;
+                pmt.intRate = 0;
+                pmt.noOfMths = 0;
+                pmt.mthlyPay = 0;
                 btnComputeMonthly.setEnabled(false);
             }
         });
