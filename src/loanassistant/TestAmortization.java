@@ -5,6 +5,8 @@
  */
 package loanassistant;
 
+import java.text.NumberFormat;
+
 /**
  *
  * @author Curtney James
@@ -29,14 +31,13 @@ public class TestAmortization implements Amortization{
     
     @Override
     public double calculateMonthlyPayment() {
-        intRate /= 100;
         mthlyIntRate = intRate / 12;
         a = mthlyIntRate+1;     
         b = (Math.pow(a,-(noOfMths)));
         c = 1 - b;
         d = mthlyIntRate / c;
         mthlyPay = d * loanAmt;  
-        return Math.round(mthlyPay);
+        return mthlyPay;
     }
     
     @Override
@@ -60,7 +61,7 @@ public class TestAmortization implements Amortization{
 
     @Override
     public double calculateFinalPayment() {
-        finalPay = loanAmt%userMthlyPay;
+        finalPay = loanAmt%mthlyPay;
         return finalPay;
     }
 
@@ -86,7 +87,5 @@ public class TestAmortization implements Amortization{
             totalInterest = calculateTotalInterest();
         }
     }
-
-    
     
 }

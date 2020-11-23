@@ -12,6 +12,8 @@ import java.awt.GridBagLayout;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.text.DecimalFormat;
+import java.text.Format;
 import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -23,6 +25,7 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
+import javax.swing.text.NumberFormatter;
 
 /**
  *
@@ -40,8 +43,11 @@ public class LoanAssistant extends JFrame implements DocumentListener {
     private ArrayList<JFormattedTextField> fieldList = new ArrayList<>();
 
     TestAmortization pmt = new TestAmortization();
-
+    private DecimalFormat decimalFormatter = new DecimalFormat("0.00");
     private NumberFormat amountFormat;
+
+    private int numberOfPayments = 0;
+    private double monthlyPayment = 0;
 
     public LoanAssistant() {
 
@@ -131,7 +137,7 @@ public class LoanAssistant extends JFrame implements DocumentListener {
         txtInterestRate.setFont(font);
         txtInterestRate.setHorizontalAlignment(JFormattedTextField.RIGHT);
         add(txtInterestRate, constraints);
-
+         
         constraints.gridx = 1;
         constraints.gridy = 2;
         constraints.gridheight = 1;
@@ -179,10 +185,12 @@ public class LoanAssistant extends JFrame implements DocumentListener {
         constraints.gridy = 1;
         constraints.gridheight = 4;
         constraints.gridwidth = 1;
-        //txaNewLoanAnalysis
+        //txaNewLoanAnalysis.setPreferredSize(preferredSize);
         txaNewLoanAnalysis.setFont(new Font("Courier New", Font.PLAIN, 13));
         constraints.fill = GridBagConstraints.VERTICAL;
         txaNewLoanAnalysis.setBorder(createLineBorder(Color.BLACK));
+        txaNewLoanAnalysis.setEditable(false);
+        txaNewLoanAnalysis.setFocusable(false);
         add(txaNewLoanAnalysis, constraints);
 
         constraints.gridx = 3;
@@ -201,42 +209,39 @@ public class LoanAssistant extends JFrame implements DocumentListener {
         btnComputeMonthly.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                
+
                 btnSwitchField.setLocation(btnSwitchField.getX(), (btnSwitchField.getY()));
-                
+
                 // gets text from fields and stores them in global variables from Amortization2 class
                 pmt.loanAmt = Double.parseDouble(txtLoanBal.getText());
-                pmt.intRate = Double.parseDouble(txtInterestRate.getText());
-                
+                pmt.intRate = (Double.parseDouble(txtInterestRate.getText()) / 100);
+
                 //gets and sets text based on which field is enabled.
-//                if (txtNumOfPayments.isEnabled()) {
-//                    pmt.noOfMths = Integer.parseInt(txtNumOfPayments.getText());
-//                    txtMonthlyPayments.setText(String.valueOf(pmt.calculateMonthlyPayment()));
-//                } else if (txtMonthlyPayments.isEnabled()) {
-//                    pmt.userMthlyPay = Double.parseDouble(txtMonthlyPayments.getText());
-//                    txtNumOfPayments.setText(String.valueOf(pmt.calculateNumberOfPayments()));
-//                }
+                if (txtNumOfPayments.isEnabled()) {
+                    pmt.noOfMths = Integer.parseInt(txtNumOfPayments.getText());
+                    monthlyPayment = pmt.calculateMonthlyPayment();
+                    numberOfPayments = pmt.noOfMths;
+                    txtMonthlyPayments.setText((String.valueOf(decimalFormatter.format((monthlyPayment)))));
+                } else if (txtMonthlyPayments.isEnabled()) {
+                    pmt.userMthlyPay = Double.parseDouble(txtMonthlyPayments.getText());
+                    numberOfPayments = pmt.calculateNumberOfPayments();
+                    monthlyPayment = pmt.userMthlyPay;
+                    txtNumOfPayments.setText(String.valueOf(numberOfPayments));
+                }
 
-                pmt.amortization(Double.parseDouble(txtLoanBal.getText()), Double.parseDouble(txtInterestRate.getText()));
-
-                // Intialize variables to called methods
-                int numberOfPayments = pmt.calculateNumberOfPayments();
-                double monthlyPayment = pmt.calculateMonthlyPayment();
-
+                //pmt.amortization(Double.parseDouble(txtLoanBal.getText()), Double.parseDouble(txtInterestRate.getText()));
                 txaNewLoanAnalysis.setText(
-                        "Loan balance: " + pmt.loanAmt
-                        +"\n"
-                        + "Interest rate is: " + pmt.intRate
+                        "Loan balance: " + currencyFormatter(pmt.loanAmt)
+                        + "\n"
+                        + "Interest rate is: " + percentFormatter(pmt.intRate)
                         + "\n\n"
-                        + numberOfPayments + " Payments of " + monthlyPayment
+                        + numberOfPayments + " Payments of " + currencyFormatter(monthlyPayment)
                         + "\n"
-                        + "Total Principal is: " + pmt.calculateTotalPrincipal()
+                        + "Final Payments of: " + currencyFormatter(pmt.finalPay)
                         + "\n"
-                        + "Final Payments: " + pmt.finalPay
+                        + "Total Payments: " + currencyFormatter((pmt.calculateTotalInterest() + pmt.loanAmt))
                         + "\n"
-                        + "Total Payments: " + pmt.calculateTotalInterest()+ pmt.loanAmt
-                        +"\n"
-                        + "Total Interest: " + pmt.calculateTotalInterest()
+                        + "Interest Paid: " + currencyFormatter(pmt.calculateTotalInterest())
                 );
             }
         });
@@ -281,6 +286,8 @@ public class LoanAssistant extends JFrame implements DocumentListener {
                 pmt.intRate = 0;
                 pmt.noOfMths = 0;
                 pmt.mthlyPay = 0;
+                numberOfPayments = 0;
+                monthlyPayment = 0;
                 btnComputeMonthly.setEnabled(false);
             }
         });
@@ -297,8 +304,21 @@ public class LoanAssistant extends JFrame implements DocumentListener {
     /*
         Method Header
      */
-    public void fieldListener(){
-            
+    public String currencyFormatter(double number) {
+        NumberFormat currencyFormat = NumberFormat.getCurrencyInstance();
+        return currencyFormat.format(number);
+    }
+
+    public String percentFormatter(double number) {
+        NumberFormat percentFormat = NumberFormat.getPercentInstance();
+        return percentFormat.format(number);
+    }
+
+    /*
+        Method Header
+     */
+    public void fieldListener() {
+
         /*When looping through arraylist, it uses an interenal variable to keep track of
         the amount of structural modifications(changing the size of the array or using, add.remove methods)
         done to the arraylist. An exception will be thrown if the size of the arrylist is manually changed 
