@@ -179,6 +179,8 @@ public class LoanAssistant extends JFrame implements DocumentListener {
         constraints.gridy = 1;
         constraints.gridheight = 4;
         constraints.gridwidth = 1;
+        //txaNewLoanAnalysis
+        txaNewLoanAnalysis.setFont(new Font("Courier New", Font.PLAIN, 13));
         constraints.fill = GridBagConstraints.VERTICAL;
         txaNewLoanAnalysis.setBorder(createLineBorder(Color.BLACK));
         add(txaNewLoanAnalysis, constraints);
@@ -220,6 +222,7 @@ public class LoanAssistant extends JFrame implements DocumentListener {
 
                 txaNewLoanAnalysis.setText(
                         "Loan balance: " + pmt.loanAmt
+                        +"\n"
                         + "Interest rate is: " + pmt.interestRate
                         + "\n\n"
                         + numberOfPayments + " Payments of " + calculateMonthlyPayment
@@ -288,11 +291,10 @@ public class LoanAssistant extends JFrame implements DocumentListener {
     }
 
     /*
-        Method
+        Method Header
      */
-    public void fieldListener() {
-
-
+    public void fieldListener(){
+            
         /*When looping through arraylist, it uses an interenal variable to keep track of
         the amount of structural modifications(changing the size of the array or using, add.remove methods)
         done to the arraylist. An exception will be thrown if the size of the arrylist is manually changed 
