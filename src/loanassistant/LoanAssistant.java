@@ -41,7 +41,7 @@ public class LoanAssistant extends JFrame implements DocumentListener {
     private ArrayList<JFormattedTextField> fieldList = new ArrayList<>();
 
     //Instances of Formatter class for calculations
-    TestAmortization pmt = new TestAmortization();
+    Amortization pmt = new Amortization();
 
     //Formatter objects
     private DecimalFormat decimalFormatter = new DecimalFormat("0.00");
@@ -74,7 +74,7 @@ public class LoanAssistant extends JFrame implements DocumentListener {
         txtNumOfPayments.setColumns(8);
         txtMonthlyPayments = new JFormattedTextField(amountFormat);
         txtMonthlyPayments.setColumns(8);
-        btnComputeMonthly = new JButton("Compute Montly Payment");
+        btnComputeMonthly = new JButton("Compute Monthly Payment");
         btnNewLoanAnalysis = new JButton("New Loan Analysis");
         btnSwitchField = new JButton("X");
         btnExit = new JButton("Exit");
@@ -239,13 +239,13 @@ public class LoanAssistant extends JFrame implements DocumentListener {
 
                 //Displays and formats Loan Analysis
                 txaNewLoanAnalysis.setText(
-                        "Loan balance: " + currencyFormat.format(pmt.loanAmount)
+                        "Loan Balance: " + currencyFormat.format(pmt.loanAmount)
                         + "\n"
-                        + "Interest rate is: " + percentFormat.format(pmt.interestRate)
+                        + "Interest Rate: " + percentFormat.format(pmt.interestRate)
                         + "\n\n"
-                        + pmt.numberOfPayments + " Payments of " + currencyFormat.format(pmt.monthlyPayment)
+                        + (pmt.numberOfPayments-1) + " Payments of " + currencyFormat.format(pmt.monthlyPayment)
                         + "\n"
-                        + "Final Payments of: " + currencyFormat.format(pmt.finalPayment)
+                        + "Final Payment of: " + currencyFormat.format(pmt.finalPayment)
                         + "\n"
                         + "Total Payments: " + currencyFormat.format(pmt.totalInterest + pmt.loanAmount)
                         + "\n"
