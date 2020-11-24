@@ -77,7 +77,7 @@ public class LoanAssistant extends JFrame implements DocumentListener {
         btnNewLoanAnalysis = new JButton("New Loan Analysis");
         btnSwitchField = new JButton("X");
         btnExit = new JButton("Exit");
-        txaNewLoanAnalysis = new JTextArea(8, 35);
+        txaNewLoanAnalysis = new JTextArea(7, 35);
 
         //Font object that sets font type, font style and font size
         Font font = new Font("Segoe UI", Font.PLAIN, 17);
@@ -206,7 +206,7 @@ public class LoanAssistant extends JFrame implements DocumentListener {
             @Override
             public void actionPerformed(ActionEvent e) {
 
-                btnSwitchField.setLocation(btnSwitchField.getX(), (btnSwitchField.getY()));
+                //btnSwitchField.setLocation(btnSwitchField.getX(), (btnSwitchField.getY()));
 
                 // gets text from fields and stores them in global variables from Amortization2 class
                 pmt.loanAmount = Double.parseDouble(txtLoanBal.getText());
@@ -224,7 +224,7 @@ public class LoanAssistant extends JFrame implements DocumentListener {
                     pmt.amortization(pmt.numberOfPayments);
                     txtMonthlyPayments.setText((String.valueOf(decimalFormatter.format((pmt.monthlyPayment)))));
 
-                } else if (txtMonthlyPayments.isEnabled()) {
+                }else if (txtMonthlyPayments.isEnabled()) {
                     /**
                      * If Payment Amount TextField is enabled Get the text and
                      * pass it into amortization(pmt.mthlyPay) to determine The
@@ -234,7 +234,7 @@ public class LoanAssistant extends JFrame implements DocumentListener {
                     pmt.monthlyPayment = Double.parseDouble(txtMonthlyPayments.getText());
                     pmt.amortization(pmt.monthlyPayment);
                     txtNumOfPayments.setText(String.valueOf(pmt.paymentCount));
-                    pmt.numberOfPayments = pmt.paymentCount++;
+                    pmt.numberOfPayments = pmt.paymentCount;
                 }
 
                 //Displays and formats Loan Analysis
@@ -247,10 +247,20 @@ public class LoanAssistant extends JFrame implements DocumentListener {
                         + "\n"
                         + "Final Payments of: " + currencyFormatter(pmt.finalPayment)
                         + "\n"
-                        + "Total Payments: " + currencyFormatter(pmt.totalInterest)
+                        + "Total Payments: " + currencyFormatter(pmt.totalInterest+pmt.loanAmount)
                         + "\n"
                         + "Interest Paid: " + currencyFormatter(pmt.totalInterest)
                 );
+                
+                pmt.loanAmount = 0;
+                pmt.interestRate = 0;
+                pmt.numberOfPayments = 0;
+                pmt.monthlyPayment = 0;
+                pmt.totalInterest = 0;
+                pmt.totalPayment = 0;
+                pmt.totalPrincipal = 0;
+                pmt.finalPayment=0;
+                pmt.paymentCount = 0;
             }
         });
 
@@ -277,6 +287,18 @@ public class LoanAssistant extends JFrame implements DocumentListener {
                     btnSwitchField.setLocation(btnSwitchField.getX(), 127);
 
                 }
+                
+                pmt.loanAmount = 0;
+                pmt.interestRate = 0;
+                pmt.numberOfPayments = 0;
+                pmt.monthlyPayment = 0;
+                pmt.totalInterest = 0;
+                pmt.totalPayment = 0;
+                pmt.totalPrincipal = 0;
+                pmt.finalPayment=0;
+                pmt.paymentCount = 0;
+                txtMonthlyPayments.setText("");
+                txtNumOfPayments.setText("");
             }
         });
 
@@ -297,6 +319,7 @@ public class LoanAssistant extends JFrame implements DocumentListener {
                 pmt.totalInterest = 0;
                 pmt.totalPayment = 0;
                 pmt.totalPrincipal = 0;
+                pmt.finalPayment=0;
                 btnComputeMonthly.setEnabled(false);
             }
         });

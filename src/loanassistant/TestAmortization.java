@@ -39,7 +39,7 @@ public class TestAmortization implements Amortization {
         startBal = loanAmount;
 
         //begin amortization loop
-        while (monthlyPayment < startBal) {
+        while (monthlyPayment <= startBal) {
 
             startBal -= principal;
             monthlyInterest = (startBal * interestRate) / 12;
@@ -52,8 +52,17 @@ public class TestAmortization implements Amortization {
             totalPayment += monthlyPayment;
 
             paymentCount++;
+            finalPayment = startBal;
         }
-        finalPayment = startBal;
+        
+        //rounds all values to two decimal places
+        Math.round(startBal * 100.0);
+        Math.round(principal * 100.0);
+        Math.round(monthlyInterest * 100.0);
+        Math.round(interestRate * 100.0);
+        Math.round(endBal * 100.0);
+        
+        
     }
 
     /**
@@ -94,7 +103,15 @@ public class TestAmortization implements Amortization {
 
             paymentCount++;
         }
+        //rounds all the values to two decimal places
+        Math.round(startBal * 100.0);
+        Math.round(principal * 100.0);
+        Math.round(monthlyInterest * 100.0);
+        Math.round(interestRate * 100.0);
+        Math.round(monthlyPayment * 100.0);
+        Math.round(endBal * 100.0);
         finalPayment = startBal;
+        
     }
 
 //Test outputs of method
@@ -102,13 +119,13 @@ public class TestAmortization implements Amortization {
         TestAmortization pmt = new TestAmortization();
         pmt.loanAmount = 10000;
         pmt.interestRate = 0.06;
-        pmt.numberOfPayments = 144;
-        pmt.monthlyPayment = 0;
+        //pmt.numberOfPayments = 144;
+        pmt.monthlyPayment = 97.59;
         int numPow;
-        pmt.amortization(pmt.numberOfPayments);
+        pmt.amortization(pmt.monthlyPayment);
 
         System.out.println(pmt.paymentCount + " " + pmt.startBal + " " + pmt.numberOfPayments + " " + pmt.monthlyInterest + " " + pmt.principal + " " + pmt.endBal + " " + pmt.totalInterest + " " + pmt.finalPayment);
-
+        System.out.println((Math.round(pmt.startBal * 100.0) / 100.0));
     }
 
 }
