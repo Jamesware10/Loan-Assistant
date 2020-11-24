@@ -11,81 +11,75 @@ import java.text.NumberFormat;
  *
  * @author Curtney James
  */
-public class TestAmortization implements Amortization{
+public class TestAmortization implements Amortization {
 
-    public double loanAmt, intRate, mthlyPay, userMthlyPay, mthlyExtra, finalPay, mthlyIntRate, startBal, payment, interest, principal, endBal, totalInterest, totalPrincipal, a, b, c, d;
+    public double loanAmt, intRate, mthlyPay, userMthlyPay, totalPayment, mthlyInt, finalPay, mthlyIntRate, startBal, payment, interest, principal, endBal, totalInterest, totalPrincipal, a, b, c, d;
     public int term, noOfMths, paymentCount;
-    
-    //Test outputs of method
-    public static void main(String[] args) {
-        TestAmortization pmt = new TestAmortization();
-        pmt.loanAmt =10000;
-        pmt.intRate = 6;
-        pmt.noOfMths=144;
-        pmt.calculateMonthlyPayment();
-        int numPow;
-        numPow = -(pmt.noOfMths);
-        System.out.println(pmt.calculateNumberOfPayments());
-        
-    }
-    
-    @Override
-    public double calculateMonthlyPayment() {
-        mthlyIntRate = intRate / 12;
-        a = mthlyIntRate+1;     
-        b = (Math.pow(a,-(noOfMths)));
-        c = 1 - b;
-        d = mthlyIntRate / c;
-        mthlyPay = d * loanAmt;  
-        return mthlyPay;
-    }
-    
-    @Override
-    public int calculateNumberOfPayments() {
-        return (int)(loanAmt/mthlyPay);
-    }
 
-    @Override
-    public double calculateTotalInterest() {
-        interest = (loanAmt*intRate);
-        totalInterest += interest;
-        return totalInterest;
-    }
-
-    @Override
-    public double calculateTotalPrincipal() {
-        principal = mthlyPay - interest;
-        totalPrincipal += principal;
-        return totalPrincipal;
-    }
-
-    @Override
-    public double calculateFinalPayment() {
-        finalPay = loanAmt%mthlyPay;
-        return finalPay;
-    }
-
-    @Override
-    public double calculateEndBalance() {
-        endBal = startBal - principal;
-        return endBal;
-    }
-
-    @Override
-    public void amortization(double loanAmt, double intRate) {
-        
-        this.loanAmt = loanAmt;
-        this.intRate = intRate;
+    public void amortization(double mthlyPay) {
         //begin amortization loop
-        
-        while (endBal > 0) {
-            ++paymentCount;
-            startBal = loanAmt;
-            interest = calculateTotalInterest();
-            principal = calculateTotalPrincipal();
-            endBal = calculateEndBalance();
-            totalInterest = calculateTotalInterest();
+        startBal = loanAmt;
+
+        //mthlyPay = (loanAmt * (((intRate / 12) * (Math.pow(1 + (intRate / 12), noOfMths))) / (Math.pow(1 + (intRate / 12), noOfMths) - 1)));
+        while (mthlyPay < startBal) {
+
+            startBal -= principal;
+            mthlyInt = (startBal * intRate) / 12;
+            principal = (mthlyPay - mthlyInt);
+            endBal = startBal - principal;
+            if (endBal <= 0) {
+                endBal = 0;
+            }
+            if (mthlyPay < startBal) {
+                finalPay = startBal;
+            }
+            totalInterest += mthlyInt;
+            totalPayment += mthlyPay;
+
+            paymentCount++;
+
+        }
+
+    }
+
+    public void amortization(int noOfPayments) {
+        //begin amortization loop
+        startBal = loanAmt;
+
+        mthlyPay = (loanAmt * (((intRate / 12) * (Math.pow(1 + (intRate / 12), noOfMths))) / (Math.pow(1 + (intRate / 12), noOfMths) - 1)));
+
+        while (paymentCount < noOfMths) {
+
+            startBal -= principal;
+            mthlyInt = (startBal * intRate) / 12;
+            principal = (mthlyPay - mthlyInt);
+            endBal = startBal - principal;
+            if (endBal <= 0) {
+                endBal = 0;
+            }
+            if (mthlyPay < startBal) {
+                finalPay = startBal;
+            }
+            totalInterest += mthlyInt;
+            totalPayment += mthlyPay;
+
+            paymentCount++;
         }
     }
-    
+
+//Test outputs of method
+    public static void main(String[] args) {
+        TestAmortization pmt = new TestAmortization();
+        pmt.loanAmt = 100000;
+        pmt.intRate = 0.06;
+        pmt.noOfMths = 360;
+        pmt.mthlyPay = 0;
+        //pmt.calculateMonthlyPayment();
+        int numPow;
+        pmt.amortization(pmt.noOfMths);
+
+        System.out.println(pmt.paymentCount + " " + pmt.startBal + " " + pmt.mthlyPay + " " + pmt.mthlyInt + " " + pmt.principal + " " + pmt.endBal + " " + pmt.totalInterest + " " + pmt.finalPay);
+
+    }
+
 }

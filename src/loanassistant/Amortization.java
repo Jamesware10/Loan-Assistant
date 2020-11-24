@@ -12,11 +12,11 @@ package loanassistant;
 public interface Amortization {
     
     
-    public double calculateMonthlyPayment();
-    public int calculateNumberOfPayments();
-    public double calculateTotalInterest();
-    public double calculateTotalPrincipal();
-    public double calculateFinalPayment();
-    public double calculateEndBalance();
-    public void amortization(double loanAmt, double intRate);
+//    public double calculateMonthlyPayment();
+//    public int calculateNumberOfPayments();
+//    public double calculateTotalInterest();
+//    public double calculateTotalPrincipal();
+//    public double calculateFinalPayment();
+//    public double calculateEndBalance();
+//    public void amortization();
 }

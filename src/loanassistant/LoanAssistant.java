@@ -13,7 +13,6 @@ import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.text.DecimalFormat;
-import java.text.Format;
 import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -25,7 +24,6 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
-import javax.swing.text.NumberFormatter;
 
 /**
  *
@@ -53,6 +51,7 @@ public class LoanAssistant extends JFrame implements DocumentListener {
 
         // Sets up frame
         super("Loan Assistant");
+
         setLayout(new GridBagLayout());
         setSize(650, 275);
         setResizable(true);
@@ -137,7 +136,7 @@ public class LoanAssistant extends JFrame implements DocumentListener {
         txtInterestRate.setFont(font);
         txtInterestRate.setHorizontalAlignment(JFormattedTextField.RIGHT);
         add(txtInterestRate, constraints);
-         
+
         constraints.gridx = 1;
         constraints.gridy = 2;
         constraints.gridheight = 1;
@@ -219,14 +218,14 @@ public class LoanAssistant extends JFrame implements DocumentListener {
                 //gets and sets text based on which field is enabled.
                 if (txtNumOfPayments.isEnabled()) {
                     pmt.noOfMths = Integer.parseInt(txtNumOfPayments.getText());
-                    monthlyPayment = pmt.calculateMonthlyPayment();
-                    numberOfPayments = pmt.noOfMths;
-                    txtMonthlyPayments.setText((String.valueOf(decimalFormatter.format((monthlyPayment)))));
+                    
+                    pmt.amortization(pmt.noOfMths);
+                    txtMonthlyPayments.setText((String.valueOf(decimalFormatter.format((pmt.mthlyPay)))));
                 } else if (txtMonthlyPayments.isEnabled()) {
-                    pmt.userMthlyPay = Double.parseDouble(txtMonthlyPayments.getText());
-                    numberOfPayments = pmt.calculateNumberOfPayments();
-                    monthlyPayment = pmt.userMthlyPay;
-                    txtNumOfPayments.setText(String.valueOf(numberOfPayments));
+                    pmt.mthlyPay = Double.parseDouble(txtMonthlyPayments.getText());
+                    
+                    pmt.amortization(pmt.mthlyPay);
+                    txtNumOfPayments.setText(String.valueOf(pmt.noOfMths));
                 }
 
                 //pmt.amortization(Double.parseDouble(txtLoanBal.getText()), Double.parseDouble(txtInterestRate.getText()));
@@ -235,13 +234,13 @@ public class LoanAssistant extends JFrame implements DocumentListener {
                         + "\n"
                         + "Interest rate is: " + percentFormatter(pmt.intRate)
                         + "\n\n"
-                        + numberOfPayments + " Payments of " + currencyFormatter(monthlyPayment)
+                        + pmt.noOfMths + " Payments of " + currencyFormatter(pmt.mthlyPay)
                         + "\n"
                         + "Final Payments of: " + currencyFormatter(pmt.finalPay)
                         + "\n"
-                        + "Total Payments: " + currencyFormatter((pmt.calculateTotalInterest() + pmt.loanAmt))
+                        + "Total Payments: " + currencyFormatter(pmt.totalInterest)
                         + "\n"
-                        + "Interest Paid: " + currencyFormatter(pmt.calculateTotalInterest())
+                        + "Interest Paid: " + currencyFormatter(pmt.totalInterest)
                 );
             }
         });
