@@ -318,7 +318,7 @@ public class LoanAssistant extends JFrame implements DocumentListener {
      * double value, formats it using the NumberFormatter's format method and
      * returns its US Currency format.
      *
-     * Parameters : double:array
+     * Parameters : double:number
      *
      * return : String:formatted double
      */
@@ -334,7 +334,7 @@ public class LoanAssistant extends JFrame implements DocumentListener {
      * a double value, formats double value using the NumberFormatter's format
      * method and returns its percentage format.
      *
-     * Parameters : double:array
+     * Parameters : double:number
      *
      * return : String:formatted double
      */
