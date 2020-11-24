@@ -52,17 +52,18 @@ public class TestAmortization implements Amortization {
             totalPayment += monthlyPayment;
 
             paymentCount++;
-            finalPayment = startBal;
+
         }
-        
+
         //rounds all values to two decimal places
-        Math.round(startBal * 100.0);
-        Math.round(principal * 100.0);
-        Math.round(monthlyInterest * 100.0);
-        Math.round(interestRate * 100.0);
-        Math.round(endBal * 100.0);
-        
-        
+//        startBal = Math.round(startBal * 100.0) / 100;
+//        principal = Math.round(principal * 100.0) / 100;
+//        monthlyPayment = Math.round(monthlyPayment * 100) / 100;
+//        monthlyInterest = Math.round(monthlyInterest * 100.0) / 100;
+//        interestRate = Math.round(interestRate * 100.0) / 100;
+//        endBal = Math.round(endBal * 100.0) / 100;
+//        
+            finalPayment = startBal;
     }
 
     /**
@@ -104,14 +105,13 @@ public class TestAmortization implements Amortization {
             paymentCount++;
         }
         //rounds all the values to two decimal places
-        Math.round(startBal * 100.0);
-        Math.round(principal * 100.0);
-        Math.round(monthlyInterest * 100.0);
-        Math.round(interestRate * 100.0);
-        Math.round(monthlyPayment * 100.0);
-        Math.round(endBal * 100.0);
-        finalPayment = startBal;
-        
+//        startBal = Math.round(startBal * 100.0) / 100;
+//        principal = Math.round(principal * 100.0) / 100;
+//        monthlyPayment = Math.round(monthlyPayment * 100) / 100;
+//        monthlyInterest = Math.round(monthlyInterest * 100.0) / 100;
+//        interestRate = Math.round(interestRate * 100.0) / 100;
+//        Math.round(endBal * 100.0);
+        finalPayment = principal;
     }
 
 //Test outputs of method
@@ -119,13 +119,13 @@ public class TestAmortization implements Amortization {
         TestAmortization pmt = new TestAmortization();
         pmt.loanAmount = 10000;
         pmt.interestRate = 0.06;
-        //pmt.numberOfPayments = 144;
-        pmt.monthlyPayment = 97.59;
+        pmt.numberOfPayments = 144;
+        //pmt.monthlyPayment = 97.59;
         int numPow;
-        pmt.amortization(pmt.monthlyPayment);
+        pmt.amortization(pmt.numberOfPayments);
 
         System.out.println(pmt.paymentCount + " " + pmt.startBal + " " + pmt.numberOfPayments + " " + pmt.monthlyInterest + " " + pmt.principal + " " + pmt.endBal + " " + pmt.totalInterest + " " + pmt.finalPayment);
-        System.out.println((Math.round(pmt.startBal * 100.0) / 100.0));
+        //System.out.println((Math.round(pmt.startBal * 100.0) / 100.0));
     }
 
 }

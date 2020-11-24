@@ -36,16 +36,17 @@ public class LoanAssistant extends JFrame implements DocumentListener {
     private JLabel lblInterestRate, lblLoanAnalysis, lblLoanBal, lblMonthlyPayments, lblNumOfPayments;
     private JTextArea txaNewLoanAnalysis;
     private JFormattedTextField txtInterestRate, txtLoanBal, txtMonthlyPayments, txtNumOfPayments;
-    
 
     //Adds JFormattedTextFields to ArrayList to check fieldList loop
     private ArrayList<JFormattedTextField> fieldList = new ArrayList<>();
 
     //Instances of Formatter class for calculations
     TestAmortization pmt = new TestAmortization();
-    
+
     //Formatter objects
     private DecimalFormat decimalFormatter = new DecimalFormat("0.00");
+    private NumberFormat currencyFormat = NumberFormat.getCurrencyInstance();
+    private NumberFormat percentFormat = NumberFormat.getPercentInstance();
     private NumberFormat amountFormat;
 
     //Frame constructor
@@ -81,7 +82,7 @@ public class LoanAssistant extends JFrame implements DocumentListener {
 
         //Font object that sets font type, font style and font size
         Font font = new Font("Segoe UI", Font.PLAIN, 17);
-        
+
         //adds formatted textfields to field list. line 342
         fieldList.add(txtLoanBal);
         txtLoanBal.getDocument().addDocumentListener(this);
@@ -196,7 +197,7 @@ public class LoanAssistant extends JFrame implements DocumentListener {
         add(btnExit, constraints);
 
         pack();
-        
+
         //Disables Monthly payment field and Compute button by default
         txtMonthlyPayments.setEnabled(false);
         btnComputeMonthly.setEnabled(false);
@@ -207,7 +208,6 @@ public class LoanAssistant extends JFrame implements DocumentListener {
             public void actionPerformed(ActionEvent e) {
 
                 //btnSwitchField.setLocation(btnSwitchField.getX(), (btnSwitchField.getY()));
-
                 // gets text from fields and stores them in global variables from Amortization2 class
                 pmt.loanAmount = Double.parseDouble(txtLoanBal.getText());
                 pmt.interestRate = (Double.parseDouble(txtInterestRate.getText()) / 100);
@@ -224,7 +224,7 @@ public class LoanAssistant extends JFrame implements DocumentListener {
                     pmt.amortization(pmt.numberOfPayments);
                     txtMonthlyPayments.setText((String.valueOf(decimalFormatter.format((pmt.monthlyPayment)))));
 
-                }else if (txtMonthlyPayments.isEnabled()) {
+                } else if (txtMonthlyPayments.isEnabled()) {
                     /**
                      * If Payment Amount TextField is enabled Get the text and
                      * pass it into amortization(pmt.mthlyPay) to determine The
@@ -239,19 +239,19 @@ public class LoanAssistant extends JFrame implements DocumentListener {
 
                 //Displays and formats Loan Analysis
                 txaNewLoanAnalysis.setText(
-                        "Loan balance: " + currencyFormatter(pmt.loanAmount)
+                        "Loan balance: " + currencyFormat.format(pmt.loanAmount)
                         + "\n"
-                        + "Interest rate is: " + percentFormatter(pmt.interestRate)
+                        + "Interest rate is: " + percentFormat.format(pmt.interestRate)
                         + "\n\n"
-                        + pmt.numberOfPayments + " Payments of " + currencyFormatter(pmt.monthlyPayment)
+                        + pmt.numberOfPayments + " Payments of " + currencyFormat.format(pmt.monthlyPayment)
                         + "\n"
-                        + "Final Payments of: " + currencyFormatter(pmt.finalPayment)
+                        + "Final Payments of: " + currencyFormat.format(pmt.finalPayment)
                         + "\n"
-                        + "Total Payments: " + currencyFormatter(pmt.totalInterest+pmt.loanAmount)
+                        + "Total Payments: " + currencyFormat.format(pmt.totalInterest + pmt.loanAmount)
                         + "\n"
-                        + "Interest Paid: " + currencyFormatter(pmt.totalInterest)
+                        + "Interest Paid: " + currencyFormat.format(pmt.totalInterest)
                 );
-                
+
                 pmt.loanAmount = 0;
                 pmt.interestRate = 0;
                 pmt.numberOfPayments = 0;
@@ -259,7 +259,7 @@ public class LoanAssistant extends JFrame implements DocumentListener {
                 pmt.totalInterest = 0;
                 pmt.totalPayment = 0;
                 pmt.totalPrincipal = 0;
-                pmt.finalPayment=0;
+                pmt.finalPayment = 0;
                 pmt.paymentCount = 0;
             }
         });
@@ -287,7 +287,7 @@ public class LoanAssistant extends JFrame implements DocumentListener {
                     btnSwitchField.setLocation(btnSwitchField.getX(), 127);
 
                 }
-                
+
                 pmt.loanAmount = 0;
                 pmt.interestRate = 0;
                 pmt.numberOfPayments = 0;
@@ -295,7 +295,7 @@ public class LoanAssistant extends JFrame implements DocumentListener {
                 pmt.totalInterest = 0;
                 pmt.totalPayment = 0;
                 pmt.totalPrincipal = 0;
-                pmt.finalPayment=0;
+                pmt.finalPayment = 0;
                 pmt.paymentCount = 0;
                 txtMonthlyPayments.setText("");
                 txtNumOfPayments.setText("");
@@ -319,7 +319,7 @@ public class LoanAssistant extends JFrame implements DocumentListener {
                 pmt.totalInterest = 0;
                 pmt.totalPayment = 0;
                 pmt.totalPrincipal = 0;
-                pmt.finalPayment=0;
+                pmt.finalPayment = 0;
                 btnComputeMonthly.setEnabled(false);
             }
         });
@@ -333,39 +333,7 @@ public class LoanAssistant extends JFrame implements DocumentListener {
             }
         });
     }
-
-    /**
-     * method : currencyFormatter
-     *
-     * Description: creates an instance of the NumberFormatter class accepts a
-     * double value, formats it using the NumberFormatter's format method and
-     * returns its US Currency format.
-     *
-     * Parameters : double:number
-     *
-     * return : String:formatted double
-     */
-    public String currencyFormatter(double number) {
-        NumberFormat currencyFormat = NumberFormat.getCurrencyInstance();
-        return currencyFormat.format(number);
-    }
-
-    /**
-     * method : percentFormatter
-     *
-     * Description: creates an instance of the NumberFormatter class and accepts
-     * a double value, formats double value using the NumberFormatter's format
-     * method and returns its percentage format.
-     *
-     * Parameters : double:number
-     *
-     * return : String:formatted double
-     */
-    public String percentFormatter(double number) {
-        NumberFormat percentFormat = NumberFormat.getPercentInstance();
-        return percentFormat.format(number);
-    }
-
+    
     /**
      * *
      * Method : fieldListener
