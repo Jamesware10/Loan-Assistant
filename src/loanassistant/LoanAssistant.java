@@ -36,22 +36,23 @@ public class LoanAssistant extends JFrame implements DocumentListener {
     private JLabel lblInterestRate, lblLoanAnalysis, lblLoanBal, lblMonthlyPayments, lblNumOfPayments;
     private JTextArea txaNewLoanAnalysis;
     private JFormattedTextField txtInterestRate, txtLoanBal, txtMonthlyPayments, txtNumOfPayments;
-    // End of component variable declaration
+    
 
+    //Adds JFormattedTextFields to ArrayList to check fieldList loop
     private ArrayList<JFormattedTextField> fieldList = new ArrayList<>();
 
+    //Instances of Formatter class for calculations
     TestAmortization pmt = new TestAmortization();
+    
+    //Formatter objects
     private DecimalFormat decimalFormatter = new DecimalFormat("0.00");
     private NumberFormat amountFormat;
 
-    private int numberOfPayments = 0;
-    private double monthlyPayment = 0;
-
+    //Frame constructor
     public LoanAssistant() {
 
         // Sets up frame
         super("Loan Assistant");
-
         setLayout(new GridBagLayout());
         setSize(650, 275);
         setResizable(true);
@@ -78,8 +79,10 @@ public class LoanAssistant extends JFrame implements DocumentListener {
         btnExit = new JButton("Exit");
         txaNewLoanAnalysis = new JTextArea(8, 25);
 
+        //Font object that sets font type, font style and font size
         Font font = new Font("Segoe UI", Font.PLAIN, 17);
-        //adds formatted textfields to field list
+        
+        //adds formatted textfields to field list. line 342
         fieldList.add(txtLoanBal);
         txtLoanBal.getDocument().addDocumentListener(this);
         fieldList.add(txtInterestRate);
@@ -89,11 +92,6 @@ public class LoanAssistant extends JFrame implements DocumentListener {
         fieldList.add(txtMonthlyPayments);
         txtMonthlyPayments.getDocument().addDocumentListener(this);
 
-//        for (JFormattedTextField fields : fieldList) {
-//            fieldList.add(fields);
-//            fields.getDocument().addDocumentListener(this);
-//
-//        }
         // Defines layout and add components to frame
         constraints.gridx = 0;
         constraints.gridy = 0;
@@ -198,9 +196,8 @@ public class LoanAssistant extends JFrame implements DocumentListener {
         add(btnExit, constraints);
 
         pack();
-        //===================================================
-
-        //Disables Monthly payment field by default
+        
+        //Disables Monthly payment field and Compute button by default
         txtMonthlyPayments.setEnabled(false);
         btnComputeMonthly.setEnabled(false);
         txtMonthlyPayments.setBackground(Color.YELLOW);
@@ -212,31 +209,43 @@ public class LoanAssistant extends JFrame implements DocumentListener {
                 btnSwitchField.setLocation(btnSwitchField.getX(), (btnSwitchField.getY()));
 
                 // gets text from fields and stores them in global variables from Amortization2 class
-                pmt.loanAmt = Double.parseDouble(txtLoanBal.getText());
-                pmt.intRate = (Double.parseDouble(txtInterestRate.getText()) / 100);
+                pmt.loanAmount = Double.parseDouble(txtLoanBal.getText());
+                pmt.interestRate = (Double.parseDouble(txtInterestRate.getText()) / 100);
 
-                //gets and sets text based on which field is enabled.
                 if (txtNumOfPayments.isEnabled()) {
-                    pmt.noOfMths = Integer.parseInt(txtNumOfPayments.getText());
-                    
-                    pmt.amortization(pmt.noOfMths);
-                    txtMonthlyPayments.setText((String.valueOf(decimalFormatter.format((pmt.mthlyPay)))));
+                    /**
+                     * If Number Of payment TextField is enabled Get the text
+                     * and pass it into amortization(int noOfMths) to determine
+                     * Amount of Payment after calculations are completed
+                     * display Payment amount in respective JTextField
+                     */
+
+                    pmt.numberOfPayments = Integer.parseInt(txtNumOfPayments.getText());
+                    pmt.amortization(pmt.numberOfPayments);
+                    txtMonthlyPayments.setText((String.valueOf(decimalFormatter.format((pmt.monthlyPayment)))));
+
                 } else if (txtMonthlyPayments.isEnabled()) {
-                    pmt.mthlyPay = Double.parseDouble(txtMonthlyPayments.getText());
-                    
-                    pmt.amortization(pmt.mthlyPay);
-                    txtNumOfPayments.setText(String.valueOf(pmt.noOfMths));
+                    /**
+                     * If Payment Amount TextField is enabled Get the text and
+                     * pass it into amortization(pmt.mthlyPay) to determine The
+                     * number of Payments after calculations are completed
+                     * display Amount of Payments in respective JTextField
+                     */
+                    pmt.monthlyPayment = Double.parseDouble(txtMonthlyPayments.getText());
+                    pmt.amortization(pmt.monthlyPayment);
+                    txtNumOfPayments.setText(String.valueOf(pmt.paymentCount));
+                    pmt.numberOfPayments = pmt.paymentCount++;
                 }
 
-                //pmt.amortization(Double.parseDouble(txtLoanBal.getText()), Double.parseDouble(txtInterestRate.getText()));
+                //Displays and formats Loan Analysis
                 txaNewLoanAnalysis.setText(
-                        "Loan balance: " + currencyFormatter(pmt.loanAmt)
+                        "Loan balance: " + currencyFormatter(pmt.loanAmount)
                         + "\n"
-                        + "Interest rate is: " + percentFormatter(pmt.intRate)
+                        + "Interest rate is: " + percentFormatter(pmt.interestRate)
                         + "\n\n"
-                        + pmt.noOfMths + " Payments of " + currencyFormatter(pmt.mthlyPay)
+                        + pmt.numberOfPayments + " Payments of " + currencyFormatter(pmt.monthlyPayment)
                         + "\n"
-                        + "Final Payments of: " + currencyFormatter(pmt.finalPay)
+                        + "Final Payments of: " + currencyFormatter(pmt.finalPayment)
                         + "\n"
                         + "Total Payments: " + currencyFormatter(pmt.totalInterest)
                         + "\n"
@@ -248,10 +257,9 @@ public class LoanAssistant extends JFrame implements DocumentListener {
         btnSwitchField.addActionListener(
                 new ActionListener() {
             @Override
-            public void actionPerformed(ActionEvent e
-            ) {
+            public void actionPerformed(ActionEvent e) {
 
-                //if textField is enabled, disable it and change its appearance
+                //if either textField is enabled, disable it and change its appearance
                 if (txtMonthlyPayments.isEnabled()) {
                     txtMonthlyPayments.setBackground(Color.YELLOW);
                     txtMonthlyPayments.setEnabled(false);
@@ -267,13 +275,14 @@ public class LoanAssistant extends JFrame implements DocumentListener {
                     txtMonthlyPayments.setBackground(Color.WHITE);
                     txtNumOfPayments.setText("");
                     btnSwitchField.setLocation(btnSwitchField.getX(), 127);
+
                 }
             }
         });
 
         btnNewLoanAnalysis.addActionListener(new ActionListener() {
             @Override
-            // Clears all fields and set re-intialize variables to 0
+            // Clears all fields and re-intialize variables to 0
             public void actionPerformed(ActionEvent e
             ) {
                 txaNewLoanAnalysis.setText("");
@@ -281,16 +290,18 @@ public class LoanAssistant extends JFrame implements DocumentListener {
                 txtLoanBal.setText("");
                 txtMonthlyPayments.setText("");
                 txtNumOfPayments.setText("");
-                pmt.loanAmt = 0;
-                pmt.intRate = 0;
-                pmt.noOfMths = 0;
-                pmt.mthlyPay = 0;
-                numberOfPayments = 0;
-                monthlyPayment = 0;
+                pmt.loanAmount = 0;
+                pmt.interestRate = 0;
+                pmt.numberOfPayments = 0;
+                pmt.monthlyPayment = 0;
+                pmt.totalInterest = 0;
+                pmt.totalPayment = 0;
+                pmt.totalPrincipal = 0;
                 btnComputeMonthly.setEnabled(false);
             }
         });
 
+        //Exits the program
         btnExit.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e
@@ -300,28 +311,55 @@ public class LoanAssistant extends JFrame implements DocumentListener {
         });
     }
 
-    /*
-        Method Header
+    /**
+     * method : currencyFormatter
+     *
+     * Description: creates an instance of the NumberFormatter class accepts a
+     * double value, formats it using the NumberFormatter's format method and
+     * returns its US Currency format.
+     *
+     * Parameters : double:array
+     *
+     * return : String:formatted double
      */
     public String currencyFormatter(double number) {
         NumberFormat currencyFormat = NumberFormat.getCurrencyInstance();
         return currencyFormat.format(number);
     }
 
+    /**
+     * method : percentFormatter
+     *
+     * Description: creates an instance of the NumberFormatter class and accepts
+     * a double value, formats double value using the NumberFormatter's format
+     * method and returns its percentage format.
+     *
+     * Parameters : double:array
+     *
+     * return : String:formatted double
+     */
     public String percentFormatter(double number) {
         NumberFormat percentFormat = NumberFormat.getPercentInstance();
         return percentFormat.format(number);
     }
 
-    /*
-        Method Header
+    /**
+     * *
+     * Method : fieldListener
+     *
+     * Description: Loops through ArrayList containing JFormattedFields and
+     * check if each list item is enabled if they say returns and the if the
+     * JformattedTextField contains text, enable the compute button else compute
+     * button is disabled.note(ArrayLists use an internal iterator which keeps
+     * track of the size of the list if the size of the list is changed during
+     * iteration an exception is thrown).
+     *
+     * Parameter: none
+     *
+     * returns: nothing
      */
     public void fieldListener() {
 
-        /*When looping through arraylist, it uses an interenal variable to keep track of
-        the amount of structural modifications(changing the size of the array or using, add.remove methods)
-        done to the arraylist. An exception will be thrown if the size of the arrylist is manually changed 
-        during iteration.*/
         for (Iterator<JFormattedTextField> itr = fieldList.iterator(); itr.hasNext();) {
             int i = 0;
 
@@ -337,22 +375,19 @@ public class LoanAssistant extends JFrame implements DocumentListener {
         }
     }
 
-    //Listens for Field updates and calls methods
+    //Listens for Field updates and calls methods.
     @Override
-    public void insertUpdate(DocumentEvent e
-    ) {
+    public void insertUpdate(DocumentEvent e) {
         fieldListener();
     }
 
     @Override
-    public void removeUpdate(DocumentEvent e
-    ) {
+    public void removeUpdate(DocumentEvent e) {
         fieldListener();
     }
 
     @Override
-    public void changedUpdate(DocumentEvent e
-    ) {
+    public void changedUpdate(DocumentEvent e) {
         fieldListener();
     }
 
