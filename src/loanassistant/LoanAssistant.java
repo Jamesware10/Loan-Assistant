@@ -77,7 +77,7 @@ public class LoanAssistant extends JFrame implements DocumentListener {
         btnNewLoanAnalysis = new JButton("New Loan Analysis");
         btnSwitchField = new JButton("X");
         btnExit = new JButton("Exit");
-        txaNewLoanAnalysis = new JTextArea(8, 25);
+        txaNewLoanAnalysis = new JTextArea(8, 35);
 
         //Font object that sets font type, font style and font size
         Font font = new Font("Segoe UI", Font.PLAIN, 17);
