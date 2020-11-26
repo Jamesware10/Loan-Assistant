@@ -28,7 +28,7 @@ import javax.swing.event.DocumentListener;
 
 /**
  *
- * @author Curtney James
+ * @author Carissa Richards, Donaldson Laynes, Curtney James
  */
 public class LoanAssistant extends JFrame implements DocumentListener {
 
@@ -43,7 +43,7 @@ public class LoanAssistant extends JFrame implements DocumentListener {
 
     //Instances of Formatter class for calculations
     Amortization pmt = new Amortization();
-    
+
     //Creates ImageIcon object
     ImageIcon img;
 
@@ -249,7 +249,7 @@ public class LoanAssistant extends JFrame implements DocumentListener {
                         + "\n"
                         + "Interest Rate: " + percentFormat.format(pmt.interestRate)
                         + "\n\n"
-                        + (pmt.numberOfPayments-1) + " Payments of " + currencyFormat.format(pmt.monthlyPayment)
+                        + (pmt.numberOfPayments) + " Payments of " + currencyFormat.format(pmt.monthlyPayment)
                         + "\n"
                         + "Final Payment of: " + currencyFormat.format(pmt.finalPayment)
                         + "\n"
@@ -267,6 +267,17 @@ public class LoanAssistant extends JFrame implements DocumentListener {
                 pmt.totalPrincipal = 0;
                 pmt.finalPayment = 0;
                 pmt.paymentCount = 0;
+                pmt.interest =0;
+                pmt.monthlyInterestRate = 0;
+                pmt.monthlyInterest=0;
+                pmt.startBal = 0;
+                pmt.payment = 0;
+                pmt.principal = 0;
+                pmt.endBal = 0;
+                pmt.a = 0;
+                pmt.b = 0;
+                pmt.c = 0;
+                pmt.d = 0;
             }
         });
 
@@ -304,6 +315,17 @@ public class LoanAssistant extends JFrame implements DocumentListener {
                 pmt.totalPrincipal = 0;
                 pmt.finalPayment = 0;
                 pmt.paymentCount = 0;
+                pmt.interest =0;
+                pmt.monthlyInterestRate = 0;
+                pmt.monthlyInterest=0;
+                pmt.startBal = 0;
+                pmt.payment = 0;
+                pmt.principal = 0;
+                pmt.endBal = 0;
+                pmt.a = 0;
+                pmt.b = 0;
+                pmt.c = 0;
+                pmt.d = 0;
                 txtMonthlyPayments.setText("");
                 txtNumOfPayments.setText("");
             }
@@ -340,7 +362,7 @@ public class LoanAssistant extends JFrame implements DocumentListener {
             }
         });
     }
-    
+
     /**
      * *
      * Method : fieldListener

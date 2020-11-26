@@ -5,7 +5,6 @@
  */
 package loanassistant;
 
-
 /**
  *
  * @author Curtney James
@@ -26,38 +25,40 @@ public class Amortization {
      * Description: accepts monthly payment as an argument, uses a while loop to
      * calculate starting balance, monthly interest, amount of principal paid,
      * and end balance.This loop iterates until the monthly payment is greater
- than the starting balance. at which point it sets end balance to 0. sets
- final payment to whatever the start balance is at end of iteration
-
- Parameters : double:monthlyPayment
-
- return : nothing
+     * than the starting balance. at which point it sets end balance to 0. sets
+     * final payment to whatever the start balance is at end of iteration
+     *
+     * Parameters : double:monthlyPayment
+     *
+     * return : nothing
+     *
      * @param monthlyPayment
      */
     public void amortization(double monthlyPayment) {
 
         startBal = loanAmount;
-
+        //numberOfPayments = (int)(startBal/monthlyPayment);
         //begin amortization loop
-        while (monthlyPayment <= startBal) {
+
+        while (principal < startBal) {
 
             startBal -= principal;
             monthlyInterest = (startBal * interestRate) / 12;
-            
             if (monthlyPayment > monthlyInterest) {
                 principal = (monthlyPayment - monthlyInterest);
-                
-            }else if(monthlyInterest > monthlyPayment) {
-                
+
+            } else if (monthlyInterest > monthlyPayment) {
+
                 principal = (monthlyInterest - monthlyPayment);
-            }
-            endBal = startBal - principal;
-            if (endBal <= 0) {
-                endBal = 0;
             }
             totalInterest += monthlyInterest;
             totalPayment += monthlyPayment;
 
+            if (endBal <= 0) {
+                endBal = 0;
+            }
+
+            endBal = startBal - principal;
             paymentCount++;
 
         }
@@ -70,7 +71,7 @@ public class Amortization {
 //        interestRate = Math.round(interestRate * 100.0) / 100;
 //        endBal = Math.round(endBal * 100.0) / 100;
 //        
-            finalPayment = startBal;
+        finalPayment = startBal;
     }
 
     /**
@@ -93,21 +94,30 @@ public class Amortization {
         startBal = loanAmount;
 
         monthlyPayment = (loanAmount * (((interestRate / 12) * (Math.pow((1 + (interestRate / 12)), numberOfPayments))) / (Math.pow(1 + (interestRate / 12), numberOfPayments) - 1)));
-
+        monthlyPayment = (double)Math.round(monthlyPayment*100)/100;
         while (paymentCount != numberOfPayments) {
 
             startBal -= principal;
             monthlyInterest = (startBal * interestRate) / 12;
-            principal = (monthlyPayment - monthlyInterest);
-            endBal = startBal - principal;
-            if (endBal <= 0) {
-                endBal = 0;
+            
+            if (monthlyPayment > monthlyInterest) {
+                principal = (monthlyPayment - monthlyInterest);
+                
+            } else if (monthlyInterest > monthlyPayment) {
+                principal = (monthlyInterest - monthlyPayment);
             }
             
             totalInterest += monthlyInterest;
             totalPayment += monthlyPayment;
 
+            if (endBal <= 0) {
+                endBal = 0;
+            }
+
+            endBal = startBal - principal;
             paymentCount++;
+            
+            
         }
         //rounds all the values to two decimal places
 //        startBal = Math.round(startBal * 100.0) / 100;
@@ -116,7 +126,7 @@ public class Amortization {
 //        monthlyInterest = Math.round(monthlyInterest * 100.0) / 100;
 //        interestRate = Math.round(interestRate * 100.0) / 100;
 //        Math.round(endBal * 100.0);
-        finalPayment = principal;
+        finalPayment = startBal;
     }
 
 //Test outputs of method
@@ -124,14 +134,14 @@ public class Amortization {
         Amortization pmt = new Amortization();
         pmt.loanAmount = 10000;
         pmt.interestRate = 0.06;
-        //pmt.numberOfPayments = 144;
-        pmt.monthlyPayment = 49;
-        
-        //pmt.amortization(pmt.monthlyPayment);
-        double num = (10000) * (.06) * (Math.pow((1+.06), 360)) / (Math.pow((1+.06), 360)-1);
-        //System.out.println(pmt.paymentCount + " " + pmt.startBal + " " + pmt.numberOfPayments + " " + pmt.monthlyInterest + " " + pmt.principal + " " + pmt.endBal + " " + pmt.totalInterest + " " + pmt.finalPayment);
+        pmt.numberOfPayments = 144;
+        //pmt.monthlyPayment = 97.59;
+
+        pmt.amortization(pmt.numberOfPayments);
+        //double num = (10000) * (.06) * (Math.pow((1 + .06), 360)) / (Math.pow((1 + .06), 360) - 1);
+        System.out.println(pmt.paymentCount + " " + pmt.startBal + " " + pmt.numberOfPayments + " " + pmt.monthlyInterest + " " + pmt.principal + " " + pmt.endBal + " " + pmt.totalInterest + " " + pmt.finalPayment);
         //System.out.println((Math.round(pmt.startBal * 100.0) / 100.0));
-        System.out.println(num);
+        //System.out.println(num);
     }
 
 }
