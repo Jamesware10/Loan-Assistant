@@ -44,40 +44,35 @@ public class Amortization {
     public void amortization(double monthlyPayment) {
 
         startBal = loanAmount;
-        //numberOfPayments = (int)(startBal/monthlyPayment);
+        
         //begin amortization loop
-
         while (principal < startBal) {
 
             startBal -= principal;
+            
             monthlyInterest = (startBal * interestRate) / 12;
+            
             if (monthlyPayment > monthlyInterest) {
                 principal = (monthlyPayment - monthlyInterest);
-
             } else if (monthlyInterest > monthlyPayment) {
-
                 principal = (monthlyInterest - monthlyPayment);
             }
+            
             totalInterest += monthlyInterest;
             totalPayment += monthlyPayment;
 
             if (endBal <= 0) {
                 endBal = 0;
             }
-
-            endBal = startBal - principal;
+            
+            endBal = startBal - principal; 
+            
+            //keeps track of payments
             paymentCount++;
-
+            
+            //System.out.println();     Output tester
         }
 
-        //rounds all values to two decimal places
-//        startBal = Math.round(startBal * 100.0) / 100;
-//        principal = Math.round(principal * 100.0) / 100;
-//        monthlyPayment = Math.round(monthlyPayment * 100) / 100;
-//        monthlyInterest = Math.round(monthlyInterest * 100.0) / 100;
-//        interestRate = Math.round(interestRate * 100.0) / 100;
-//        endBal = Math.round(endBal * 100.0) / 100;
-//        
         finalPayment = startBal;
     }
 
@@ -97,11 +92,14 @@ public class Amortization {
      * return : nothing
      */
     public void amortization(int numberOfPayments) {
-        //begin amortization loop
+        
         startBal = loanAmount;
-
+        
+        //Monthly payment formula
         monthlyPayment = (loanAmount * (((interestRate / 12) * (Math.pow((1 + (interestRate / 12)), numberOfPayments))) / (Math.pow(1 + (interestRate / 12), numberOfPayments) - 1)));
         monthlyPayment = (double)Math.round(monthlyPayment*100)/100;
+        
+        //begin amortization loop
         while (paymentCount != numberOfPayments) {
 
             startBal -= principal;
@@ -120,35 +118,16 @@ public class Amortization {
             if (endBal <= 0) {
                 endBal = 0;
             }
-
             endBal = startBal - principal;
+            
+            //Keeps track of payments
             paymentCount++;
             
-            
+            //System.out.println();     Output tester
+        
         }
-        //rounds all the values to two decimal places
-//        startBal = Math.round(startBal * 100.0) / 100;
-//        principal = Math.round(principal * 100.0) / 100;
-//        monthlyPayment = Math.round(monthlyPayment * 100) / 100;
-//        monthlyInterest = Math.round(monthlyInterest * 100.0) / 100;
-//        interestRate = Math.round(interestRate * 100.0) / 100;
-//        Math.round(endBal * 100.0);
+
         finalPayment = startBal;
-    }
-
-//Test outputs of method
-    public static void main(String[] args) {
-        Amortization pmt = new Amortization();
-        pmt.loanAmount = 10000;
-        pmt.interestRate = 0.06;
-        pmt.numberOfPayments = 144;
-        //pmt.monthlyPayment = 97.59;
-
-        pmt.amortization(pmt.numberOfPayments);
-        //double num = (10000) * (.06) * (Math.pow((1 + .06), 360)) / (Math.pow((1 + .06), 360) - 1);
-        System.out.println(pmt.paymentCount + " " + pmt.startBal + " " + pmt.numberOfPayments + " " + pmt.monthlyInterest + " " + pmt.principal + " " + pmt.endBal + " " + pmt.totalInterest + " " + pmt.finalPayment);
-        //System.out.println((Math.round(pmt.startBal * 100.0) / 100.0));
-        //System.out.println(num);
     }
 
 }
