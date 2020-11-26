@@ -7,8 +7,15 @@ package loanassistant;
 
 /**
  *
- * @author Curtney James
+ * @authors Carissa Richards, Donaldson Laynes, Curtney James
+ *
+ * Role Assignment: 1) Carissa was responsible for Product Management 
+ *                  2)Curtney James was responsible for Developing the GUI 
+ *                  3)Donaldson Laynes was responsible for Quality Assurance 
+ *                  4)Everyone contributed to coding the Amortization class in order 
+ *                  to do calculations.
  */
+
 public class Amortization {
 
     //Declaring variables

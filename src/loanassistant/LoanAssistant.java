@@ -28,8 +28,15 @@ import javax.swing.event.DocumentListener;
 
 /**
  *
- * @author Carissa Richards, Donaldson Laynes, Curtney James
+ * @authors Carissa Richards, Donaldson Laynes, Curtney James
+ *
+ * Role Assignment: 1) Carissa was responsible for Product Management 
+ *                  2)Curtney James was responsible for Developing the GUI 
+ *                  3)Donaldson Laynes was responsible for Quality Assurance 
+ *                  4)Everyone contributed to coding the Amortization class in order 
+ *                  to do calculations.
  */
+
 public class LoanAssistant extends JFrame implements DocumentListener {
 
     // Declare component variables 
@@ -267,9 +274,9 @@ public class LoanAssistant extends JFrame implements DocumentListener {
                 pmt.totalPrincipal = 0;
                 pmt.finalPayment = 0;
                 pmt.paymentCount = 0;
-                pmt.interest =0;
+                pmt.interest = 0;
                 pmt.monthlyInterestRate = 0;
-                pmt.monthlyInterest=0;
+                pmt.monthlyInterest = 0;
                 pmt.startBal = 0;
                 pmt.payment = 0;
                 pmt.principal = 0;
@@ -315,9 +322,9 @@ public class LoanAssistant extends JFrame implements DocumentListener {
                 pmt.totalPrincipal = 0;
                 pmt.finalPayment = 0;
                 pmt.paymentCount = 0;
-                pmt.interest =0;
+                pmt.interest = 0;
                 pmt.monthlyInterestRate = 0;
-                pmt.monthlyInterest=0;
+                pmt.monthlyInterest = 0;
                 pmt.startBal = 0;
                 pmt.payment = 0;
                 pmt.principal = 0;
@@ -419,3 +426,4 @@ public class LoanAssistant extends JFrame implements DocumentListener {
     }
 
 }
+        
