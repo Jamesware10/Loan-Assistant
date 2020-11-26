@@ -30,11 +30,18 @@ import javax.swing.event.DocumentListener;
  *
  * @authors Carissa Richards, Donaldson Laynes, Curtney James
  *
+ * Purpose of Application: To create a GUI that would allow users to calculate
+ * their debt payments. The user will enter the amount of the loan and the
+ * interest rate of the loan. They may then choose to calculate the payment
+ * amount per period based on the number of payments the user enters.
+ * Alternatively, the user can choose the payment amount per period and then
+ * calculate the number of payments it would take yo completely pay off the loan
+ *
  * Role Assignment: 1) Carissa was responsible for Product Management 
- *                  2)Curtney James was responsible for Developing the GUI 
+ *                  2)Curtney James was responsible for Developing the GUI
  *                  3)Donaldson Laynes was responsible for Quality Assurance 
- *                  4)Everyone contributed to coding the Amortization class in order 
- *                  to do calculations.
+ *                  4)Everyone contributed to coding the Amortization class in 
+ *                  order to do calculations.
  */
 
 public class LoanAssistant extends JFrame implements DocumentListener {
@@ -426,4 +433,3 @@ public class LoanAssistant extends JFrame implements DocumentListener {
     }
 
 }
-        

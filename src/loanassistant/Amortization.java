@@ -29,17 +29,16 @@ public class Amortization {
     /**
      * method : amortization
      *
-     * Description: accepts monthly payment as an argument, uses a while loop to
+     * Accepts monthly payment as an argument, uses a while loop to
      * calculate starting balance, monthly interest, amount of principal paid,
      * and end balance.This loop iterates until the monthly payment is greater
      * than the starting balance. at which point it sets end balance to 0. sets
      * final payment to whatever the start balance is at end of iteration
      *
-     * Parameters : double:monthlyPayment
+     * @param Parameters: double:monthlyPayment
      *
-     * return : nothing
+     * @return returns: nothing
      *
-     * @param monthlyPayment
      */
     public void amortization(double monthlyPayment) {
 
@@ -77,9 +76,9 @@ public class Amortization {
     }
 
     /**
-     * method : amortization
+     * method : amortization.
      *
-     * Description: accepts number of payment as an argument, uses a while loop
+     * Accepts number of payment as an argument, uses a while loop
      * to calculate starting balance, monthly interest, amount of principal
      * paid, and end balance. This loop iterates until the number of iterations
      * the sentinel value has been reached. The sentinel value is equal to
@@ -87,10 +86,11 @@ public class Amortization {
      * it sets end balance to 0. sets final payment to whatever the start
      * balance is at end of iteration
      *
-     * Parameters : int:numberOfPayments
+     * @param Parameters : int:numberOfPayments
      *
-     * return : nothing
+     * @return return : nothing
      */
+    
     public void amortization(int numberOfPayments) {
         
         startBal = loanAmount;
