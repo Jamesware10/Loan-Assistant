@@ -5,7 +5,6 @@
  */
 package loanassistant;
 
-import java.text.NumberFormat;
 
 /**
  *
@@ -26,13 +25,14 @@ public class Amortization {
      *
      * Description: accepts monthly payment as an argument, uses a while loop to
      * calculate starting balance, monthly interest, amount of principal paid,
-     * and end balance. This loop iterates until the monthly payment is greater
-     * than the starting balance. at which point it sets end balance to 0. sets
-     * final payment to whatever the start balance is at end of iteration
-     *
-     * Parameters : double:monthlyPayment
-     *
-     * return : nothing
+     * and end balance.This loop iterates until the monthly payment is greater
+ than the starting balance. at which point it sets end balance to 0. sets
+ final payment to whatever the start balance is at end of iteration
+
+ Parameters : double:monthlyPayment
+
+ return : nothing
+     * @param monthlyPayment
      */
     public void amortization(double monthlyPayment) {
 
@@ -43,7 +43,14 @@ public class Amortization {
 
             startBal -= principal;
             monthlyInterest = (startBal * interestRate) / 12;
-            principal = (monthlyPayment - monthlyInterest);
+            
+            if (monthlyPayment > monthlyInterest) {
+                principal = (monthlyPayment - monthlyInterest);
+                
+            }else if(monthlyInterest > monthlyPayment) {
+                
+                principal = (monthlyInterest - monthlyPayment);
+            }
             endBal = startBal - principal;
             if (endBal <= 0) {
                 endBal = 0;
@@ -85,9 +92,9 @@ public class Amortization {
         //begin amortization loop
         startBal = loanAmount;
 
-        monthlyPayment = (loanAmount * (((interestRate / 12) * (Math.pow(1 + (interestRate / 12), numberOfPayments))) / (Math.pow(1 + (interestRate / 12), numberOfPayments) - 1)));
+        monthlyPayment = (loanAmount * (((interestRate / 12) * (Math.pow((1 + (interestRate / 12)), numberOfPayments))) / (Math.pow(1 + (interestRate / 12), numberOfPayments) - 1)));
 
-        while (paymentCount < numberOfPayments) {
+        while (paymentCount != numberOfPayments) {
 
             startBal -= principal;
             monthlyInterest = (startBal * interestRate) / 12;
@@ -96,9 +103,7 @@ public class Amortization {
             if (endBal <= 0) {
                 endBal = 0;
             }
-            if (monthlyPayment < startBal) {
-                finalPayment = startBal;
-            }
+            
             totalInterest += monthlyInterest;
             totalPayment += monthlyPayment;
 
@@ -119,13 +124,14 @@ public class Amortization {
         Amortization pmt = new Amortization();
         pmt.loanAmount = 10000;
         pmt.interestRate = 0.06;
-        pmt.numberOfPayments = 144;
-        //pmt.monthlyPayment = 97.59;
-        int numPow;
-        pmt.amortization(pmt.numberOfPayments);
-
-        System.out.println(pmt.paymentCount + " " + pmt.startBal + " " + pmt.numberOfPayments + " " + pmt.monthlyInterest + " " + pmt.principal + " " + pmt.endBal + " " + pmt.totalInterest + " " + pmt.finalPayment);
+        //pmt.numberOfPayments = 144;
+        pmt.monthlyPayment = 49;
+        
+        //pmt.amortization(pmt.monthlyPayment);
+        double num = (10000) * (.06) * (Math.pow((1+.06), 360)) / (Math.pow((1+.06), 360)-1);
+        //System.out.println(pmt.paymentCount + " " + pmt.startBal + " " + pmt.numberOfPayments + " " + pmt.monthlyInterest + " " + pmt.principal + " " + pmt.endBal + " " + pmt.totalInterest + " " + pmt.finalPayment);
         //System.out.println((Math.round(pmt.startBal * 100.0) / 100.0));
+        System.out.println(num);
     }
 
 }

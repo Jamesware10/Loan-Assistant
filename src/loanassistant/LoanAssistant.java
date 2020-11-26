@@ -17,6 +17,7 @@ import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.Iterator;
 import static javax.swing.BorderFactory.createLineBorder;
+import javax.swing.ImageIcon;
 import javax.swing.JTextArea;
 import javax.swing.JButton;
 import javax.swing.JFormattedTextField;
@@ -42,6 +43,9 @@ public class LoanAssistant extends JFrame implements DocumentListener {
 
     //Instances of Formatter class for calculations
     Amortization pmt = new Amortization();
+    
+    //Creates ImageIcon object
+    ImageIcon img;
 
     //Formatter objects
     private DecimalFormat decimalFormatter = new DecimalFormat("0.00");
@@ -56,9 +60,11 @@ public class LoanAssistant extends JFrame implements DocumentListener {
         super("Loan Assistant");
         setLayout(new GridBagLayout());
         setSize(650, 275);
-        setResizable(true);
+        setResizable(false);
         GridBagConstraints constraints = new GridBagConstraints();
         constraints.insets = new Insets(8, 8, 8, 8);
+        img = new ImageIcon("C:\\Users\\Curtney James\\Documents\\NetBeansProjects\\Loan-Assistant\\src\\img/calculator.png");
+        setIconImage(img.getImage());
 
         // Creates components
         lblLoanBal = new JLabel("Loan Balance");
@@ -264,8 +270,7 @@ public class LoanAssistant extends JFrame implements DocumentListener {
             }
         });
 
-        btnSwitchField.addActionListener(
-                new ActionListener() {
+        btnSwitchField.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
 
@@ -276,7 +281,8 @@ public class LoanAssistant extends JFrame implements DocumentListener {
                     txtNumOfPayments.setEnabled(true);
                     txtNumOfPayments.setBackground(Color.WHITE);
                     txtMonthlyPayments.setText("");
-                    btnSwitchField.setLocation(btnSwitchField.getX(), 87);
+                    btnComputeMonthly.setText("Compute Monthly Payments");
+                    btnSwitchField.setLocation(btnSwitchField.getX(), 100);
 
                 } else if (txtNumOfPayments.isEnabled()) {
                     txtNumOfPayments.setBackground(Color.YELLOW);
@@ -284,7 +290,8 @@ public class LoanAssistant extends JFrame implements DocumentListener {
                     txtMonthlyPayments.setEnabled(true);
                     txtMonthlyPayments.setBackground(Color.WHITE);
                     txtNumOfPayments.setText("");
-                    btnSwitchField.setLocation(btnSwitchField.getX(), 127);
+                    btnComputeMonthly.setText("Compute Number of Payments");
+                    btnSwitchField.setLocation(btnSwitchField.getX(), 140);
 
                 }
 
